@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, TextInput } from 'react-native';
 
+import Adapter from '../Adapter'
+
 export default class LogInScreen extends React.Component {
 
   state = {
@@ -9,8 +11,10 @@ export default class LogInScreen extends React.Component {
   }
 
   handleFormSubmission = () => {
-    // API.logIn(this.state)
-    // .then( redirect on success )
+    Adapter.logIn(this.state)
+    .then( userData => {
+      console.log("loged in?: ", userData)
+    })
   }
   
   render() {
@@ -22,7 +26,7 @@ export default class LogInScreen extends React.Component {
           value={ this.state.username }
           onChangeText={ username => this.setState({ username }) }
           onSubmitText={
-            console.log("Refocus")
+            1 + 1 == 1 // ...I'm pretty sure :/
             // Refocus on next text input
           }
         />
