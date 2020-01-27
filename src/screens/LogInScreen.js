@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, TextInput } from 'react-native';
+import { View, Text, TextInput, Button } from 'react-native';
+import { connect } from 'react-redux'
 
 import Adapter from '../Adapter'
 
-export default class LogInScreen extends React.Component {
+class LogInScreen extends React.Component {
 
   state = {
     username: "",
@@ -11,10 +12,12 @@ export default class LogInScreen extends React.Component {
   }
 
   handleFormSubmission = () => {
-    Adapter.logIn(this.state)
-    .then( userData => {
-      console.log("loged in?: ", userData)
-    })
+    // Adapter.logIn(this.state)
+    // .then( userData => {
+    //   console.log("loged in?: ", userData)
+    // })
+    console.log("Logged In")
+    this.props.logUserIn(this.state)
   }
   
   render() {
@@ -37,7 +40,22 @@ export default class LogInScreen extends React.Component {
           onChangeText={ password => this.setState({ password }) }
           onSubmitText={ this.handleFormSubmission }
         />
+        <Button 
+          title="Log In"
+          onPress={ this.handleFormSubmission }
+        />
       </View>
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logUserIn(userData) {
+      dispatch({ type: "LOG_USER_IN", payload: userData })
+    },
+  }
+}
+
+export default connect(undefined, mapDispatchToProps)(LogInScreen)
+// export default LogInScreen
