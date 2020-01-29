@@ -12,12 +12,18 @@ class LogInScreen extends React.Component {
   }
 
   handleFormSubmission = () => {
-    // Adapter.logIn(this.state)
-    // .then( userData => {
-    //   console.log("loged in?: ", userData)
-    // })
-    console.log("Logged In")
-    this.props.logUserIn(this.state)
+    Adapter.logIn(this.state)
+    .then( userData => {
+      console.log("loged in?: ", userData)
+      debugger
+    })
+    .catch( err => {
+      console.log("error?: ", err)
+
+      debugger
+    })
+    // console.log("Logged In")
+    // this.props.logUserIn(this.state)
   }
   
   render() {
