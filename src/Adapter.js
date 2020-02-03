@@ -1,7 +1,13 @@
-const currentIP = "10.218.17.210"
+const currentIP = "10.218.17.83"
 const baseUrl = `http://${currentIP}:3001`
 
-const parseJson = resp => resp.json()
+const parseJson = async resp => {
+  const body = await resp.json()
+
+  if( resp.ok ) return body
+  
+  throw new Error( JSON.stringify(body) )
+}
 
 const optionsBuilder = (method, payload = undefined, headers = {}) => {
   return {
@@ -17,7 +23,7 @@ const optionsBuilder = (method, payload = undefined, headers = {}) => {
 }
 
 const compactFetch = ({ extension, method, payload, headers }) => {
-  console.log("URL: ", baseUrl + extension)
+  console.log("Fetched to URL:", method,  baseUrl + extension)
   return fetch(
     baseUrl + extension, 
     optionsBuilder(method, payload, headers)
@@ -42,28 +48,4 @@ export default class Adapter {
       payload: newUserInfo,
     })
   }
-  // static login = (userInfo) => {
-  //   return fetch(baseUrl + '/login', optionsBuilder('POST', userInfo))
-  //   .then( parseJson )
-  // }
-
-  // static signup = (newUserInfo) => {
-  //   return fetch(baseUrl + '/register', optionsBuilder('POST', newUserInfo))
-  //   .then( parseJson )
-  // }
-
-  // static validate = () => {
-  //   return fetch(baseUrl + '/validate', optionsBuilder('GET'))
-  //   .then( parseJson )
-  // }
-
-  // static logout = () => {
-  //   return fetch(baseUrl + '/logout', optionsBuilder('GET'))
-  //   .then( parseJson )
-  // }
-
-  // static fetchUsersNotInConversation = (conversationId) => {
-  //   return fetch(baseUrl + '/users', optionsBuilder('POST', { conversationId }))
-  //   .then( parseJson )
-  // }
 }

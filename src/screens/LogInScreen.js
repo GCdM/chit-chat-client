@@ -13,23 +13,28 @@ class LogInScreen extends React.Component {
 
   handleFormSubmission = () => {
     Adapter.logIn(this.state)
-    .then( userData => {
-      console.log("loged in?: ", userData)
+    .then( this.props.logUserIn )
+    .catch( errorObj => {
+      const errorInfo = JSON.parse(errorObj.message)
       debugger
+      // ADD ERROR TO REDUX STORE
     })
-    .catch( err => {
-      console.log("error?: ", err)
+  }
 
-      debugger
-    })
-    // console.log("Logged In")
-    // this.props.logUserIn(this.state)
+  navigateToSignUp = () => {
+    this.props.navigation.navigate('SignUp')
   }
   
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Log In Screen</Text>
+        <View style={{ flexDirection: 'row' }}>
+          <Text>Log In  or  </Text>
+          <Button
+            title="Sign Up"
+            onPress={ this.navigateToSignUp }
+          />
+        </View>
         <TextInput
           placeholder="Username"
           value={ this.state.username }
