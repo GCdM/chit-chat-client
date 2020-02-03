@@ -6,7 +6,10 @@ import AppContainer from './src/containers/AppContainer'
 import AuthContainer from './src/containers/AuthContainer'
 import reducer from './src/reducer'
 
-const store = createStore(reducer)
+const store = createStore(
+  reducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+)
 
 class App extends React.Component {
 
