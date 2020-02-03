@@ -27,35 +27,37 @@ class LogInScreen extends React.Component {
   
   render() {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <View style={{ flexDirection: 'row' }}>
-          <Text>Log In  or  </Text>
+      <>
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
           <Button
             title="Sign Up"
             onPress={ this.navigateToSignUp }
+            />
+        </View>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Text>Log In</Text>
+          <TextInput
+            placeholder="Username"
+            value={ this.state.username }
+            onChangeText={ username => this.setState({ username }) }
+            onSubmitText={
+              1 + 1 == 1 // ...I'm pretty sure :/
+              // Refocus on next text input
+            }
+          />
+          <TextInput
+            secureTextEntry
+            placeholder="Password"
+            value={ this.state.password }
+            onChangeText={ password => this.setState({ password }) }
+            onSubmitText={ this.handleFormSubmission }
+          />
+          <Button 
+            title="Log In"
+            onPress={ this.handleFormSubmission }
           />
         </View>
-        <TextInput
-          placeholder="Username"
-          value={ this.state.username }
-          onChangeText={ username => this.setState({ username }) }
-          onSubmitText={
-            1 + 1 == 1 // ...I'm pretty sure :/
-            // Refocus on next text input
-          }
-        />
-        <TextInput
-          secureTextEntry
-          placeholder="Password"
-          value={ this.state.password }
-          onChangeText={ password => this.setState({ password }) }
-          onSubmitText={ this.handleFormSubmission }
-        />
-        <Button 
-          title="Log In"
-          onPress={ this.handleFormSubmission }
-        />
-      </View>
+      </>
     );
   }
 }
