@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
 import { connect } from 'react-redux'
 
+import BackButton from '../components/BackButton'
+
 import Adapter from '../Adapter'
 
 class SignUpScreen extends React.Component {
@@ -22,19 +24,10 @@ class SignUpScreen extends React.Component {
     })
   }
 
-  navigateBack = () => {
-    this.props.navigation.goBack()
-  }
-  
   render() {
     return (
       <>
-        <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
-          <Button
-            title="X"
-            onPress={ this.navigateBack }
-          />
-        </View>
+        <BackButton navigation={this.props.navigation} />
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <Text>Sign Up</Text>
           <TextInput

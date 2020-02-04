@@ -1,12 +1,26 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React from 'react'
+import { View, Text, Button } from 'react-native'
+import { connect } from 'react-redux'
 
-export default class ConversationScreen extends React.Component {
+import BackButton from '../components/BackButton'
+
+class ConversationScreen extends React.Component {
   render() {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Conversation Screen</Text>
-      </View>
+      <>
+        <BackButton navigation={this.props.navigation} />
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Text>Conversation Screen</Text>
+        </View>
+      </>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    selectedConversationId: state.selectedConversationId,
+  }
+}
+
+export default connect(mapStateToProps, null)(ConversationScreen)

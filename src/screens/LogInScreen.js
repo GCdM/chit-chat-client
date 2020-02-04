@@ -21,17 +21,13 @@ class LogInScreen extends React.Component {
     })
   }
 
-  navigateToSignUp = () => {
-    this.props.navigation.navigate('SignUp')
-  }
-  
   render() {
     return (
       <>
         <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
           <Button
             title="Sign Up"
-            onPress={ this.navigateToSignUp }
+            onPress={() => this.props.navigation.navigate('SignUp')}
             />
         </View>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
