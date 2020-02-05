@@ -68,8 +68,8 @@ class SignUpScreen extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    logUserIn(userData) {
-      dispatch({ type: "LOG_USER_IN", payload: userData })
+    logUserIn(userInfo) {
+      dispatch({ type: "LOG_USER_IN", payload: userInfo })
     },
   }
 }

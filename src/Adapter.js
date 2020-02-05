@@ -1,4 +1,4 @@
-const currentIP = "10.218.17.98"
+const currentIP = "10.218.17.119"
 const baseUrl = `http://${currentIP}:3001`
 
 const parseJson = async resp => {
@@ -12,7 +12,6 @@ const parseJson = async resp => {
 const optionsBuilder = (method, payload = undefined, headers = {}) => {
   return {
     method,
-    // credentials: 'include', NEEDED FOR COOKIE SESSION MANAGEMENT
     body: JSON.stringify(payload),
     headers: {
       'Content-Type': 'application/json',
@@ -24,6 +23,7 @@ const optionsBuilder = (method, payload = undefined, headers = {}) => {
 
 const compactFetch = ({ extension, method, payload, headers }) => {
   console.log("Fetched to URL:", method,  baseUrl + extension)
+  
   return fetch(
     baseUrl + extension, 
     optionsBuilder(method, payload, headers)
@@ -33,19 +33,26 @@ const compactFetch = ({ extension, method, payload, headers }) => {
 
 export default class Adapter {
   
-  static logIn = (userInfo) => {
+  static logIn = (userCredentials) => {
     return compactFetch({
       extension: '/login',
       method: 'POST',
-      payload: userInfo,
+      payload: userCredentials,
     })
   }
 
-  static signUp = (newUserInfo) => {
+  static signUp = (newUserCredentials) => {
     return compactFetch({
       extension: '/signup',
       method: 'POST',
-      payload: newUserInfo,
+      payload: newUserCredentials,
+    })
+  }
+
+  static validate = () => {
+    return compactFetch({
+      extension: '/validate',
+      method: 'GET',
     })
   }
 }

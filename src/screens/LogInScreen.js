@@ -7,12 +7,15 @@ import Adapter from '../Adapter'
 class LogInScreen extends React.Component {
 
   state = {
+    loading: true,
     username: "",
     password: "",
   }
 
   handleFormSubmission = () => {
-    Adapter.logIn(this.state)
+    const { username, password } = this.state
+    
+    Adapter.logIn({ username, password })
     .then( this.props.logUserIn )
     .catch( errorObj => {
       const errorInfo = JSON.parse(errorObj.message)
@@ -21,40 +24,46 @@ class LogInScreen extends React.Component {
     })
   }
 
+  componentDidMount() {
+    Adapter.validate()
+    .then( this.props.logUserIn )
+    .catch( errorObj => this.setState({ loading: false }) )
+  }
+
   render() {
-    return (
-      <>
-        <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-          <Button
-            title="Sign Up"
-            onPress={() => this.props.navigation.navigate('SignUp')}
-            />
-        </View>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>Log In</Text>
-          <TextInput
-            placeholder="Username"
-            value={ this.state.username }
-            onChangeText={ username => this.setState({ username }) }
-            onSubmitText={
-              1 + 1 == 1 // ...I'm pretty sure :/
-              // Refocus on next text input
-            }
+    return this.state.loading
+    ? null // REPLACE W/ A LOADER
+    : <>
+      <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+        <Button
+          title="Sign Up"
+          onPress={() => this.props.navigation.navigate('SignUp')}
           />
-          <TextInput
-            secureTextEntry
-            placeholder="Password"
-            value={ this.state.password }
-            onChangeText={ password => this.setState({ password }) }
-            onSubmitText={ this.handleFormSubmission }
-          />
-          <Button 
-            title="Log In"
-            onPress={ this.handleFormSubmission }
-          />
-        </View>
-      </>
-    );
+      </View>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Log In</Text>
+        <TextInput
+          placeholder="Username"
+          value={ this.state.username }
+          onChangeText={ username => this.setState({ username }) }
+          onSubmitText={
+            1 + 1 == 1 // ...I'm pretty sure :/
+            // Refocus on next text input
+          }
+        />
+        <TextInput
+          secureTextEntry
+          placeholder="Password"
+          value={ this.state.password }
+          onChangeText={ password => this.setState({ password }) }
+          onSubmitText={ this.handleFormSubmission }
+        />
+        <Button 
+          title="Log In"
+          onPress={ this.handleFormSubmission }
+        />
+      </View>
+    </>
   }
 }
 
@@ -67,4 +76,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(undefined, mapDispatchToProps)(LogInScreen)
-// export default LogInScreen
