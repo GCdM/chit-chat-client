@@ -4,7 +4,8 @@ import { createStore } from 'redux'
 
 import AppContainer from './src/containers/AppContainer'
 import AuthContainer from './src/containers/AuthContainer'
-import reducer from './src/reducer'
+
+import reducer from './utils/reducer'
 
 const store = createStore(
   reducer,

@@ -33,6 +33,14 @@ const compactFetch = ({ extension, method, payload, headers }) => {
 
 export default class Adapter {
   
+  static signUp = (newUserCredentials) => {
+    return compactFetch({
+      extension: '/signup',
+      method: 'POST',
+      payload: newUserCredentials,
+    })
+  }
+
   static logIn = (userCredentials) => {
     return compactFetch({
       extension: '/login',
@@ -41,11 +49,10 @@ export default class Adapter {
     })
   }
 
-  static signUp = (newUserCredentials) => {
+  static logOut = () => {
     return compactFetch({
-      extension: '/signup',
-      method: 'POST',
-      payload: newUserCredentials,
+      extension: '/logout',
+      method: 'GET',
     })
   }
 

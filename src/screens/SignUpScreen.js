@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import BackButton from '../components/BackButton'
 
-import Adapter from '../Adapter'
+import Adapter from '../../utils/Adapter'
 
 class SignUpScreen extends React.Component {
 

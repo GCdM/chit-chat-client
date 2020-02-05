@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
 import { connect } from 'react-redux'
 
-import Adapter from '../Adapter'
+import Adapter from '../../utils/Adapter'
 
 class LogInScreen extends React.Component {
 
@@ -70,7 +70,7 @@ class LogInScreen extends React.Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     logUserIn(userData) {
-      dispatch({ type: "LOG_USER_IN", payload: userData })
+      dispatch({ type: 'LOG_USER_IN', payload: userData })
     },
   }
 }
