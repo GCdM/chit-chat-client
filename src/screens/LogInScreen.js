@@ -24,46 +24,40 @@ class LogInScreen extends React.Component {
     })
   }
 
-  componentDidMount() {
-    Adapter.validate()
-    .then( this.props.logUserIn )
-    .catch( errorObj => this.setState({ loading: false }) )
-  }
-
   render() {
-    return this.state.loading
-    ? null // REPLACE W/ A LOADER
-    : <>
-      <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-        <Button
-          title="Sign Up"
-          onPress={() => this.props.navigation.navigate('SignUp')}
+    return (
+      <>
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+          <Button
+            title="Sign Up"
+            onPress={() => this.props.navigation.navigate('SignUp')}
+            />
+        </View>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Text>Log In</Text>
+          <TextInput
+            placeholder="Username"
+            value={ this.state.username }
+            onChangeText={ username => this.setState({ username }) }
+            onSubmitText={
+              1 + 1 == 1 // ...I'm pretty sure :/
+              // Refocus on next text input
+            }
           />
-      </View>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Log In</Text>
-        <TextInput
-          placeholder="Username"
-          value={ this.state.username }
-          onChangeText={ username => this.setState({ username }) }
-          onSubmitText={
-            1 + 1 == 1 // ...I'm pretty sure :/
-            // Refocus on next text input
-          }
-        />
-        <TextInput
-          secureTextEntry
-          placeholder="Password"
-          value={ this.state.password }
-          onChangeText={ password => this.setState({ password }) }
-          onSubmitText={ this.handleFormSubmission }
-        />
-        <Button 
-          title="Log In"
-          onPress={ this.handleFormSubmission }
-        />
-      </View>
-    </>
+          <TextInput
+            secureTextEntry
+            placeholder="Password"
+            value={ this.state.password }
+            onChangeText={ password => this.setState({ password }) }
+            onSubmitText={ this.handleFormSubmission }
+          />
+          <Button 
+            title="Log In"
+            onPress={ this.handleFormSubmission }
+          />
+        </View>
+      </>
+    )
   }
 }
 

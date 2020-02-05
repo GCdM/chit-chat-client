@@ -6,6 +6,7 @@ import AppContainer from './src/containers/AppContainer'
 import AuthContainer from './src/containers/AuthContainer'
 
 import reducer from './utils/reducer'
+import Adapter from './utils/Adapter'
 
 const store = createStore(
   reducer,
@@ -14,10 +15,24 @@ const store = createStore(
 
 class App extends React.Component {
 
+  state = {
+    loading: true,
+  }
+
+  componentDidMount() {
+    Adapter.validate()
+    .then( this.props.logUserIn )
+    .catch( errorObj => this.setState({ loading: false }) )
+  }
+
   render() {
-    return this.props.user
-      ? <AppContainer />
-      : <AuthContainer />
+    return this.state.loading
+      ? null
+      : (
+        this.props.user
+        ? <AppContainer />
+        : <AuthContainer />
+      )
   }
 }
 
@@ -27,7 +42,15 @@ const mapStateToProps = (state) => {
   }
 }
 
-const ConnectedApp = connect(mapStateToProps)(App)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logUserIn(userData) {
+      dispatch({ type: 'LOG_USER_IN', payload: userData })
+    },
+  }
+}
+
+const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
 
 export default class AppWrapper extends React.Component {
 
