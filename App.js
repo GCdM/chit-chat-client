@@ -21,13 +21,16 @@ class App extends React.Component {
 
   componentDidMount() {
     Adapter.validate()
-    .then( this.props.logUserIn )
+    .then( userInfo => {
+      this.props.logUserIn(userInfo)
+      this.setState({ loading: false })
+    })
     .catch( errorObj => this.setState({ loading: false }) )
   }
 
   render() {
     return this.state.loading
-      ? null
+      ? null // ADD LOADER
       : (
         this.props.user
         ? <AppContainer />

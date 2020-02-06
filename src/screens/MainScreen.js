@@ -17,6 +17,14 @@ class MainScreen extends React.Component {
     .then(() => this.props.navigation.navigate('Conversation'))
   }
   
+  componentDidMount() {
+    // Connect to websocket
+  }
+
+  componentWillUnmount() {
+    // Disconnect from websocket
+  }
+  
   render() {
     return (
       <>
