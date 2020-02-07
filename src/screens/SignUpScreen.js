@@ -1,11 +1,11 @@
 import React from 'react'
 import { View, Text, TextInput, Button } from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage'
 import { connect } from 'react-redux'
 
 import BackButton from '../components/BackButton'
 
 import Adapter from '../../utils/Adapter'
+import helper from '../../utils/helper'
 
 
 class SignUpScreen extends React.Component {
@@ -19,8 +19,9 @@ class SignUpScreen extends React.Component {
   handleFormSubmission = () => {
     Adapter.signUp(this.state)
     .then( userInfo => {
-      AsyncStorage.setItem('myKey', userInfo.privateKey)
-      userInfo.privateKey = undefined
+      const privateKey = helper.decryptData(userInfo.encPrivateKey, this.state.password)
+      userInfo.encPrivateKey = undefined
+      userInfo.key = privateKey
       this.props.logUserIn(userInfo)
     })
     .catch( errorObj => {

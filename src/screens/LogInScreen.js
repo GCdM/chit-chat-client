@@ -3,6 +3,7 @@ import { View, Text, TextInput, Button } from 'react-native';
 import { connect } from 'react-redux'
 
 import Adapter from '../../utils/Adapter'
+import helper from '../../utils/helper'
 
 class LogInScreen extends React.Component {
 
@@ -16,7 +17,12 @@ class LogInScreen extends React.Component {
     const { username, password } = this.state
     
     Adapter.logIn({ username, password })
-    .then( this.props.logUserIn )
+    .then( userInfo => {
+      const privateKey = helper.decryptData(userInfo.encPrivateKey, this.state.password)
+      userInfo.encPrivateKey = undefined
+      userInfo.key = privateKey
+      this.props.logUserIn(userInfo)
+    })
     .catch( errorObj => {
       const errorInfo = JSON.parse(errorObj.message)
       debugger

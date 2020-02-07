@@ -1,4 +1,4 @@
-const currentIP = "10.218.17.138"
+const currentIP = "10.218.17.167"
 const baseUrl = `http://${currentIP}:3001`
 
 const parseJson = async resp => {
@@ -23,7 +23,7 @@ const optionsBuilder = (method, payload = undefined, headers = {}) => {
 
 const compactFetch = ({ extension, method, payload, headers }) => {
   console.log("Fetched to URL:", method,  baseUrl + extension)
-  
+
   return fetch(
     baseUrl + extension, 
     optionsBuilder(method, payload, headers)
