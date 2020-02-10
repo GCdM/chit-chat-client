@@ -1,4 +1,4 @@
-const currentIP = "10.218.17.167"
+const currentIP = "10.218.3.21"
 const baseUrl = `http://${currentIP}:3001`
 
 const parseJson = async resp => {

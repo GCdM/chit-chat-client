@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import BackButton from '../components/BackButton'
 
 import Adapter from '../../utils/Adapter'
-import helper from '../../utils/helper'
+import { decryptData } from '../../utils/helper'
 
 
 class SignUpScreen extends React.Component {
@@ -19,9 +19,10 @@ class SignUpScreen extends React.Component {
   handleFormSubmission = () => {
     Adapter.signUp(this.state)
     .then( userInfo => {
-      const privateKey = helper.decryptData(userInfo.encPrivateKey, this.state.password)
-      userInfo.encPrivateKey = undefined
+      const privateKey = decryptData(userInfo.encPrivateKey, this.state.password)
+
       userInfo.key = privateKey
+      userInfo.encPrivateKey = undefined
       this.props.logUserIn(userInfo)
     })
     .catch( errorObj => {

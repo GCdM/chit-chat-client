@@ -39,7 +39,6 @@ const generateDecipher = (password, ivString) => {
   /*
     Generate decipher from a 32bit `password` and 16bit `ivString`
   */
- debugger
   return crypto.createDecipheriv(
     'aes256', 
     generateKey(password),
@@ -53,7 +52,6 @@ const encryptData = (data, password) => {
 
     Returns a hex string
   */
-
   const plainText = JSON.stringify(data)
   const cipher = generateCipher(password, "IdeallyCryptographicallyRandom")
 
@@ -69,7 +67,6 @@ const decryptData = (cipherText, password) => {
 
     Returns the decrypted data as the original object
   */
-
   const decipher = generateDecipher(password, "IdeallyCryptographicallyRandom")
 
   let decrypted = decipher.update(cipherText, 'hex', 'utf8')
