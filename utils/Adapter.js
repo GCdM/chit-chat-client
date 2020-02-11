@@ -1,4 +1,4 @@
-const currentIP = "10.218.3.21"
+const currentIP = "10.218.17.215"
 const baseUrl = `http://${currentIP}:3001`
 
 const parseJson = async resp => {
@@ -26,13 +26,15 @@ const compactFetch = ({ extension, method, payload, headers }) => {
 
   return fetch(
     baseUrl + extension, 
-    optionsBuilder(method, payload, headers)
+    optionsBuilder(method, payload, headers),
   )
   .then( parseJson )
 }
 
 export default class Adapter {
   
+  ///// AUTH ROUTES /////
+  ///////////////////////
   static signUp = (newUserCredentials) => {
     return compactFetch({
       extension: '/signup',
@@ -59,6 +61,15 @@ export default class Adapter {
   static validate = () => {
     return compactFetch({
       extension: '/validate',
+      method: 'GET',
+    })
+  }
+
+  ///// DATA ROUTES /////
+  ///////////////////////
+  static loadInitialData = () => {
+    return compactFetch({
+      extension: '/initial_data',
       method: 'GET',
     })
   }

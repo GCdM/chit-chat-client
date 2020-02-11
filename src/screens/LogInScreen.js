@@ -26,6 +26,7 @@ class LogInScreen extends React.Component {
     })
     .catch( errorObj => {
       const errorInfo = JSON.parse(errorObj.message)
+      console.error(errorInfo)
       debugger
       // ADD ERROR TO REDUX STORE
     })
