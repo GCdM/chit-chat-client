@@ -1,23 +1,17 @@
 import React from 'react';
-import { View, Text, Button, FlatList } from 'react-native';
+import { View, Button, TextInput, FlatList } from 'react-native';
 import { connect } from 'react-redux';
-import Adapter from '../../utils/Adapter';
 
-const DUMMY_DATA = [
-  { id: '1', username: "Friend1" },
-  { id: '2', username: "Friend2" },
-  { id: '3', username: "Friend3" },
-  { id: '4', username: "Friend4" },
-  { id: '5', username: "Friend5" },
-  { id: '6', username: "Friend6" },
-  { id: '7', username: "Friend7" },
-]
+import ConversationList from '../components/ConversationList'
+import UserPreview from '../components/UserPreview'
+
+import Adapter from '../../utils/Adapter';
 
 class MainScreen extends React.Component {
 
-  handleConversationSelect = (id) => {
-    this.props.selectConversationById(id)
-    .then(() => this.props.navigation.navigate('Conversation'))
+  state = {
+    otherUsers: [],
+    searchTerm: "",
   }
   
   componentDidMount() {
@@ -34,28 +28,51 @@ class MainScreen extends React.Component {
   componentWillUnmount() {
     // Disconnect from websocket
   }
+
+  getOtherUsers = () => {
+    Adapter.getOtherUsers()
+    .then( otherUsers => {
+      this.setState({ otherUsers })
+    })
+    .catch( errorObj => {
+      const errorInfo = JSON.parse(errorObj.message)
+      console.error(errorInfo)
+      debugger
+    })
+  }
+
+  renderSearchResults = () => {
+    return <FlatList
+      style={{ position: 'absolute' }}
+      data={this.state.otherUsers}
+      renderItem={({ item }) => <UserPreview user={item} /> }
+    />
+  }
   
   render() {
     return (
       <>
-        <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+        <View style={{ flexDirection: 'row' }}>
+          <TextInput 
+            style={{ flex: 3, borderWidth: 1 }}
+            placeholder="Search for users"
+            onFocus={ this.getOtherUsers }
+            onChangeText={ searchTerm => this.setState({ searchTerm }) }
+          />
           <Button
+            style={{ flex: 1 }}
             title=" Profile "
             onPress={() => this.props.navigation.navigate('Profile') }
           />
         </View>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>Main Screen</Text>
-          <FlatList 
-            data={DUMMY_DATA}
-            renderItem={({ item }) => 
-              <Text 
-                key={item.id}
-                onPress={() => this.handleConversationSelect(item.id)}
-              >{ item.username }</Text>
-            }
-          />
+        <View style={{ flexDirection: 'row' }}>
+          {
+            this.state.searchTerm
+            ? this.renderSearchResults()
+            : null
+          }
         </View>
+        <ConversationList navigation={this.props.navigation} />
       </>
     );
   }
@@ -63,12 +80,9 @@ class MainScreen extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    async selectConversationById(id) {
-      dispatch({ type: 'SELECT_CONVERSATION_BY_ID', payload: id })
-    },
     storeInitialData(data) {
       dispatch({ type: 'LOAD_INITIAL_DATA', payload: data })
-    }
+    },
   }
 }
 

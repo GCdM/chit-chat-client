@@ -73,4 +73,11 @@ export default class Adapter {
       method: 'GET',
     })
   }
+
+  static getOtherUsers = () => {
+    return compactFetch({
+      extension: '/other_users',
+      method: 'GET',
+    })
+  }
 }
