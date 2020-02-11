@@ -42,9 +42,14 @@ class MainScreen extends React.Component {
   }
 
   renderSearchResults = () => {
+    const lowerSearchTerm = this.state.searchTerm.toLowerCase()
+    const filteredUsers = this.state.otherUsers.filter( user => 
+      user.username.toLowerCase().includes(lowerSearchTerm)
+    )
+    
     return <FlatList
       style={{ position: 'absolute' }}
-      data={this.state.otherUsers}
+      data={filteredUsers}
       renderItem={({ item }) => <UserPreview user={item} /> }
     />
   }
