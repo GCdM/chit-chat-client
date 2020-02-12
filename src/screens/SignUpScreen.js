@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, TextInput, Button } from 'react-native'
 import { connect } from 'react-redux'
 
-import BackButton from '../components/BackButton'
+import NavigationButton from '../components/NavigationButton'
 
 import Adapter from '../../utils/Adapter'
 import { decryptData } from '../../utils/helper'
@@ -36,7 +36,11 @@ class SignUpScreen extends React.Component {
   render() {
     return (
       <>
-        <BackButton navigation={this.props.navigation} />
+        <NavigationButton 
+          style={{ flexDirection: 'row', justifyContent: 'flex-start' }}
+          title=" < "
+          onPress={() => this.props.navigation.goBack()}
+        />
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <Text>Sign Up</Text>
           <TextInput

@@ -1,7 +1,8 @@
 import React from 'react'
-import { View, Text, FlatList } from 'react-native'
+import { View, Text, FlatList, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 
+import ConversationPreview from './ConversationPreview'
 
 class ConversationList extends React.Component {
 
@@ -10,19 +11,17 @@ class ConversationList extends React.Component {
     .then(() => this.props.navigation.navigate('Conversation'))
   }
   
-  renderItem = ({ item }) => {
-    return <Text 
-      key={item.id}
-      onPress={() => this.handleConversationSelect(item.id)}
-    >
-      { item.otherUsername }
-    </Text>
-  }
+  renderItem = ({ item }) => (
+    <ConversationPreview 
+      key={item.id} 
+      {...item} 
+      handleConversationSelect={this.handleConversationSelect}
+    />
+  )
 
   render() {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Main Screen</Text>
+      <View style={styles.conversationList}>
         <FlatList 
           data={this.props.conversationPreviews}
           renderItem={this.renderItem}
@@ -31,6 +30,14 @@ class ConversationList extends React.Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  conversationList: {
+    flex: 1,
+    alignItems: 'stretch',
+    justifyContent: 'center',
+  },
+})
 
 const mapStateToProps = (state) => {
   return {
