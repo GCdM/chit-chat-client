@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, TextInput, FlatList, StyleSheet } from 'react-native'
+import { View, Text, TextInput, FlatList, StyleSheet } from 'react-native'
 
 import UserPreview from './UserPreview'
 
@@ -30,23 +30,40 @@ class SearchBar extends React.Component {
       user.username.toLowerCase().includes(lowerSearchTerm)
     )
     
-    return <FlatList
-      style={styles.searchResults}
-      data={filteredUsers}
-      renderItem={({ item }) => <UserPreview user={item} /> }
-    />
+    return filteredUsers.length
+      ? <FlatList
+        style={styles.searchResults}
+        data={filteredUsers}
+        renderItem={({ item }) =>
+          <UserPreview
+            user={item} 
+            onPress={this.handleUserSelect}
+          />
+        }
+      />
+      : <View style={[styles.searchResults, {borderWidth: 1}]}><Text>No users</Text></View>
+  }
+
+  handleUserSelect = (id) => {
+    console.log('clicked')
+    debugger
+    Adapter.startConversation(id)
+    .then()
+    .catch()
   }
 
   render() {
     return (
-      <View style={{ flex: 3 }} >
+      <View style={styles.searchBarContainer} >
         <TextInput 
-          style={{ borderWidth: 1 }}
+          style={{ borderWidth: 3 }}
           placeholder="Search for users"
           onFocus={ this.getOtherUsers }
           onChangeText={ searchTerm => this.setState({ searchTerm }) }
         />
-        <View>
+        <View
+          style={{ alignItems: 'center' }}
+        >
           {
             this.state.searchTerm
             ? this.renderSearchResults()
@@ -59,8 +76,13 @@ class SearchBar extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  searchBarContainer: {
+    flex: 3,
+  },
   searchResults: {
+    // flex: 1,
     position: 'absolute',
+    zIndex: 1,
   },
 })
 

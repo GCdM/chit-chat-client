@@ -7,11 +7,11 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "reset-start": "react-native start --reset-cache",
+    "clear-cache": "watchman watch-del-all && rm -rf node_modules && npm i && npm run reset-start && rm -rf /tmp/metro-*",
     "test": "jest",
     "lint": "eslint ."
   },
   "dependencies": {
-    "@react-native-community/async-storage": "^1.7.1",
     "@react-native-community/masked-view": "^0.1.6",
     "@tradle/react-native-http": "^2.0.1",
     "assert": "^1.5.0",
