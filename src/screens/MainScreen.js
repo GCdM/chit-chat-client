@@ -28,7 +28,7 @@ class MainScreen extends React.Component {
       return (
         <>
         <View style={styles.header}>
-          <SearchBar />
+          <SearchBar navigation={this.props.navigation}/>
           <Button
             style={{ flex: 1 }}
             title=" Profile "

@@ -80,4 +80,13 @@ export default class Adapter {
       method: 'GET',
     })
   }
+
+  static startConversation = (userId) => {
+    console.log("Starting conversation")
+    return compactFetch({
+      extension: '/start_conversation',
+      method: 'POST',
+      payload: { userId },
+    })
+  }
 }

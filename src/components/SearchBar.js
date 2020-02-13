@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, TextInput, FlatList, StyleSheet } from 'react-native'
+import { connect } from 'react-redux'
 
 import UserPreview from './UserPreview'
 
@@ -45,11 +46,16 @@ class SearchBar extends React.Component {
   }
 
   handleUserSelect = (id) => {
-    console.log('clicked')
-    debugger
     Adapter.startConversation(id)
-    .then()
-    .catch()
+    .then( conversationPreview => {
+      this.props.storeConversation(conversationPreview)
+      .then(() => this.props.navigation.navigate('Conversation'))
+    })
+    .catch( errorObj => {
+      const errorInfo = JSON.parse(errorObj.message)
+      console.error(errorInfo)
+      debugger
+    })
   }
 
   render() {
@@ -86,4 +92,12 @@ const styles = StyleSheet.create({
   },
 })
 
-export default SearchBar
+const mapDispatchToProps = (dispatch) => {
+  return {
+    async storeConversation(conversation) {
+      dispatch({ type: 'STORE_CONVERSATION', payload: conversation })
+    },
+  }
+}
+
+export default connect(null, mapDispatchToProps)(SearchBar)
